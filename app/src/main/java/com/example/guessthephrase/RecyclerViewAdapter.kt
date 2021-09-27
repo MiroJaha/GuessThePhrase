@@ -1,15 +1,27 @@
 package com.example.guessthephrase
 
-import android.graphics.Color
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.items_row.view.*
 
-class RecyclerViewAdapter(private val enters:List<String>,private var check : Boolean):RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder>() {
+private var lists = mutableMapOf<Int,Int>()
+
+class RecyclerViewAdapter(private val enters:List<String>, color : Int):RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder>() {
     class ItemViewHolder (itemView: View):RecyclerView.ViewHolder(itemView) {
 
+    }
+
+    init {
+        val size=enters.size
+        if (enters.isNotEmpty()) {
+            if(lists[size - 1] == null)
+                lists[size-1]=color
+        }
+        else
+            lists = mutableMapOf()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -23,17 +35,12 @@ class RecyclerViewAdapter(private val enters:List<String>,private var check : Bo
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        val enter = enters[position]
-        if (check) {
-            holder.itemView.apply {
-                tvResult.text = enter
-                tvResult.setBackgroundColor(Color.GREEN)
-            }
-        } else {
-            holder.itemView.apply {
-                tvResult.text = enter
-                tvResult.setBackgroundColor(Color.RED)
-            }
+        val entry = enters[position]
+        val list = lists[position]
+
+        holder.itemView.apply {
+            tvResult.text = entry
+            tvResult.setTextColor(list!!)
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.guessthephrase
 
 import android.app.AlertDialog
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var phraseString : String
 
 
-    private fun show(str:ArrayList<String>,check:Boolean){
+    private fun show(str:ArrayList<String>,check:Int){
 
         myRV.adapter = RecyclerViewAdapter(str,check)
         myRV.layoutManager = LinearLayoutManager(this)
@@ -143,7 +144,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         else
-            show(list,true)
+            show(list,Color.RED)
 
         phraseView.text=phraseString
 
@@ -160,13 +161,13 @@ class MainActivity : AppCompatActivity() {
                    saveNewChar()
                    if(phrase.contains(charEntry.text.toString().uppercase())) {
                        list.add("You Guessed ${charEntry.text.toString().uppercase()} Correct")
-                       show(list,true)
+                       show(list, Color.GREEN)
                    }
                    else{
                        countGussiesChar--
                        list.add("You Guessed ${charEntry.text.toString().uppercase()} Wrong\n" +
                                "$countGussiesChar Character Guesses Remaining")
-                       show(list,false)
+                       show(list,Color.RED)
 
                    }
                    noRepeat.add(charEntry.text.toString().uppercase())
@@ -193,7 +194,7 @@ class MainActivity : AppCompatActivity() {
                 var index=0
                 if (phrase == phraseEntry.text.toString().uppercase()) {
                     list.add("You Guessed ${phraseEntry.text.toString().uppercase()} Correct")
-                    show(list, true)
+                    show(list, Color.GREEN)
                     for(i in phrase)
                         stars[index++]=i
                 }
@@ -201,7 +202,7 @@ class MainActivity : AppCompatActivity() {
                     countGussiesPhrase--
                     list.add("You Guessed ${phraseEntry.text.toString().uppercase()} Wrong\n" +
                             "$countGussiesPhrase Phrase Guesses Remaining")
-                    show(list,false)
+                    show(list,Color.RED)
 
                 }
                 phraseEntry.text=null
